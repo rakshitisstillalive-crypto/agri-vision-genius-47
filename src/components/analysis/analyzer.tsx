@@ -51,7 +51,7 @@ function Section({
   );
 }
 
-function Row({ label, value }: { label: string; value?: string | number | null }) {
+function Row({ label, value }: { label: string; value?: string | number | null | undefined }) {
   if (value === undefined || value === null || value === "") return null;
   return (
     <div className="flex flex-col gap-0.5 border-b border-border/60 py-2 last:border-0 sm:flex-row sm:gap-4">
@@ -84,7 +84,7 @@ export function ReportView({
       kind: report.kind === "soil" ? "soil" : "plant",
       title: report.title ?? "Analysis",
       image_data_url: imageDataUrl,
-      report: report as unknown as Record<string, unknown>,
+      report: report as unknown as never,
     });
     setSaving(false);
     if (error) toast.error("Could not save this report.");
