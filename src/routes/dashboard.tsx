@@ -62,7 +62,7 @@ function Dashboard() {
 
   const remove = async (id: string) => {
     const { error } = await supabase.from("analyses").delete().eq("id", id);
-    if (error) return toast.error("Could not delete this report.");
+    if (error) { toast.error("Could not delete this report."); return; }
     toast.success("Report deleted.");
     void qc.invalidateQueries({ queryKey: ["analyses", user?.id] });
   };

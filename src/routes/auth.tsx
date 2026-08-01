@@ -51,7 +51,7 @@ function AuthPage() {
 
   const signIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!emailOk(email)) return toast.error("Enter a valid email address.");
+    if (!emailOk(email)) { toast.error("Enter a valid email address."); return; }
     setBusy(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
@@ -61,8 +61,8 @@ function AuthPage() {
 
   const signUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!emailOk(email)) return toast.error("Enter a valid email address.");
-    if (password.length < 8) return toast.error("Password must be at least 8 characters.");
+    if (!emailOk(email)) { toast.error("Enter a valid email address."); return; }
+    if (password.length < 8) { toast.error("Password must be at least 8 characters."); return; }
     setBusy(true);
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -73,7 +73,7 @@ function AuthPage() {
       },
     });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     if (!data.session) toast.success("Check your inbox to confirm your email address.");
     else toast.success("Account created.");
   };
@@ -92,7 +92,7 @@ function AuthPage() {
   };
 
   const reset = async () => {
-    if (!emailOk(email)) return toast.error("Enter your email first, then tap reset.");
+    if (!emailOk(email)) { toast.error("Enter your email first, then tap reset."); return; }
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
