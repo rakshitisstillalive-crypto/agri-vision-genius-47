@@ -13,11 +13,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnalyzeRouteImport } from './routes/analyze'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ManualRouteImport } from './routes/manual'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as CompanyAboutRouteImport } from './routes/company.about'
 import { Route as CompanyCareersRouteImport } from './routes/company.careers'
 import { Route as CompanyPressRouteImport } from './routes/company.press'
 import { Route as CompanyResearchRouteImport } from './routes/company.research'
+import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
+import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as ProductBrixPhRouteImport } from './routes/product.brix-ph'
 import { Route as ProductCropHealthRouteImport } from './routes/product.crop-health'
 import { Route as ProductSeedQualityRouteImport } from './routes/product.seed-quality'
@@ -45,6 +48,11 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ManualRoute = ManualRouteImport.update({
+  id: '/manual',
+  path: '/manual',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -68,6 +76,16 @@ const CompanyPressRoute = CompanyPressRouteImport.update({
 const CompanyResearchRoute = CompanyResearchRouteImport.update({
   id: '/company/research',
   path: '/company/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalPrivacyRoute = LegalPrivacyRouteImport.update({
+  id: '/legal/privacy',
+  path: '/legal/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalTermsRoute = LegalTermsRouteImport.update({
+  id: '/legal/terms',
+  path: '/legal/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductBrixPhRoute = ProductBrixPhRouteImport.update({
@@ -106,11 +124,14 @@ export interface FileRoutesByFullPath {
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/manual': typeof ManualRoute
   '/reset-password': typeof ResetPasswordRoute
   '/company/about': typeof CompanyAboutRoute
   '/company/careers': typeof CompanyCareersRoute
   '/company/press': typeof CompanyPressRoute
   '/company/research': typeof CompanyResearchRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/product/brix-ph': typeof ProductBrixPhRoute
   '/product/crop-health': typeof ProductCropHealthRoute
   '/product/seed-quality': typeof ProductSeedQualityRoute
@@ -123,11 +144,14 @@ export interface FileRoutesByTo {
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/manual': typeof ManualRoute
   '/reset-password': typeof ResetPasswordRoute
   '/company/about': typeof CompanyAboutRoute
   '/company/careers': typeof CompanyCareersRoute
   '/company/press': typeof CompanyPressRoute
   '/company/research': typeof CompanyResearchRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/product/brix-ph': typeof ProductBrixPhRoute
   '/product/crop-health': typeof ProductCropHealthRoute
   '/product/seed-quality': typeof ProductSeedQualityRoute
@@ -141,11 +165,14 @@ export interface FileRoutesById {
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/manual': typeof ManualRoute
   '/reset-password': typeof ResetPasswordRoute
   '/company/about': typeof CompanyAboutRoute
   '/company/careers': typeof CompanyCareersRoute
   '/company/press': typeof CompanyPressRoute
   '/company/research': typeof CompanyResearchRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/product/brix-ph': typeof ProductBrixPhRoute
   '/product/crop-health': typeof ProductCropHealthRoute
   '/product/seed-quality': typeof ProductSeedQualityRoute
@@ -160,11 +187,14 @@ export interface FileRouteTypes {
     | '/analyze'
     | '/auth'
     | '/dashboard'
+    | '/manual'
     | '/reset-password'
     | '/company/about'
     | '/company/careers'
     | '/company/press'
     | '/company/research'
+    | '/legal/privacy'
+    | '/legal/terms'
     | '/product/brix-ph'
     | '/product/crop-health'
     | '/product/seed-quality'
@@ -177,11 +207,14 @@ export interface FileRouteTypes {
     | '/analyze'
     | '/auth'
     | '/dashboard'
+    | '/manual'
     | '/reset-password'
     | '/company/about'
     | '/company/careers'
     | '/company/press'
     | '/company/research'
+    | '/legal/privacy'
+    | '/legal/terms'
     | '/product/brix-ph'
     | '/product/crop-health'
     | '/product/seed-quality'
@@ -194,11 +227,14 @@ export interface FileRouteTypes {
     | '/analyze'
     | '/auth'
     | '/dashboard'
+    | '/manual'
     | '/reset-password'
     | '/company/about'
     | '/company/careers'
     | '/company/press'
     | '/company/research'
+    | '/legal/privacy'
+    | '/legal/terms'
     | '/product/brix-ph'
     | '/product/crop-health'
     | '/product/seed-quality'
@@ -212,11 +248,14 @@ export interface RootRouteChildren {
   AnalyzeRoute: typeof AnalyzeRoute
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRoute
+  ManualRoute: typeof ManualRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   CompanyAboutRoute: typeof CompanyAboutRoute
   CompanyCareersRoute: typeof CompanyCareersRoute
   CompanyPressRoute: typeof CompanyPressRoute
   CompanyResearchRoute: typeof CompanyResearchRoute
+  LegalPrivacyRoute: typeof LegalPrivacyRoute
+  LegalTermsRoute: typeof LegalTermsRoute
   ProductBrixPhRoute: typeof ProductBrixPhRoute
   ProductCropHealthRoute: typeof ProductCropHealthRoute
   ProductSeedQualityRoute: typeof ProductSeedQualityRoute
@@ -255,6 +294,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/manual': {
+      id: '/manual'
+      path: '/manual'
+      fullPath: '/manual'
+      preLoaderRoute: typeof ManualRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -288,6 +334,20 @@ declare module '@tanstack/react-router' {
       path: '/company/research'
       fullPath: '/company/research'
       preLoaderRoute: typeof CompanyResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/privacy': {
+      id: '/legal/privacy'
+      path: '/legal/privacy'
+      fullPath: '/legal/privacy'
+      preLoaderRoute: typeof LegalPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/terms': {
+      id: '/legal/terms'
+      path: '/legal/terms'
+      fullPath: '/legal/terms'
+      preLoaderRoute: typeof LegalTermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/product/brix-ph': {
@@ -340,11 +400,14 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyzeRoute: AnalyzeRoute,
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRoute,
+  ManualRoute: ManualRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   CompanyAboutRoute: CompanyAboutRoute,
   CompanyCareersRoute: CompanyCareersRoute,
   CompanyPressRoute: CompanyPressRoute,
   CompanyResearchRoute: CompanyResearchRoute,
+  LegalPrivacyRoute: LegalPrivacyRoute,
+  LegalTermsRoute: LegalTermsRoute,
   ProductBrixPhRoute: ProductBrixPhRoute,
   ProductCropHealthRoute: ProductCropHealthRoute,
   ProductSeedQualityRoute: ProductSeedQualityRoute,
