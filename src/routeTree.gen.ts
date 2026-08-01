@@ -22,6 +22,8 @@ import { Route as ProductBrixPhRouteImport } from './routes/product.brix-ph'
 import { Route as ProductCropHealthRouteImport } from './routes/product.crop-health'
 import { Route as ProductSeedQualityRouteImport } from './routes/product.seed-quality'
 import { Route as ProductSoilDiagnosticsRouteImport } from './routes/product.soil-diagnostics'
+import { Route as SupportApiRouteImport } from './routes/support.api'
+import { Route as SupportContactRouteImport } from './routes/support.contact'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -88,6 +90,16 @@ const ProductSoilDiagnosticsRoute = ProductSoilDiagnosticsRouteImport.update({
   path: '/product/soil-diagnostics',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupportApiRoute = SupportApiRouteImport.update({
+  id: '/support/api',
+  path: '/support/api',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportContactRoute = SupportContactRouteImport.update({
+  id: '/support/contact',
+  path: '/support/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -103,6 +115,8 @@ export interface FileRoutesByFullPath {
   '/product/crop-health': typeof ProductCropHealthRoute
   '/product/seed-quality': typeof ProductSeedQualityRoute
   '/product/soil-diagnostics': typeof ProductSoilDiagnosticsRoute
+  '/support/api': typeof SupportApiRoute
+  '/support/contact': typeof SupportContactRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -118,6 +132,8 @@ export interface FileRoutesByTo {
   '/product/crop-health': typeof ProductCropHealthRoute
   '/product/seed-quality': typeof ProductSeedQualityRoute
   '/product/soil-diagnostics': typeof ProductSoilDiagnosticsRoute
+  '/support/api': typeof SupportApiRoute
+  '/support/contact': typeof SupportContactRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,6 +150,8 @@ export interface FileRoutesById {
   '/product/crop-health': typeof ProductCropHealthRoute
   '/product/seed-quality': typeof ProductSeedQualityRoute
   '/product/soil-diagnostics': typeof ProductSoilDiagnosticsRoute
+  '/support/api': typeof SupportApiRoute
+  '/support/contact': typeof SupportContactRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,6 +169,8 @@ export interface FileRouteTypes {
     | '/product/crop-health'
     | '/product/seed-quality'
     | '/product/soil-diagnostics'
+    | '/support/api'
+    | '/support/contact'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +186,8 @@ export interface FileRouteTypes {
     | '/product/crop-health'
     | '/product/seed-quality'
     | '/product/soil-diagnostics'
+    | '/support/api'
+    | '/support/contact'
   id:
     | '__root__'
     | '/'
@@ -181,6 +203,8 @@ export interface FileRouteTypes {
     | '/product/crop-health'
     | '/product/seed-quality'
     | '/product/soil-diagnostics'
+    | '/support/api'
+    | '/support/contact'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -197,6 +221,8 @@ export interface RootRouteChildren {
   ProductCropHealthRoute: typeof ProductCropHealthRoute
   ProductSeedQualityRoute: typeof ProductSeedQualityRoute
   ProductSoilDiagnosticsRoute: typeof ProductSoilDiagnosticsRoute
+  SupportApiRoute: typeof SupportApiRoute
+  SupportContactRoute: typeof SupportContactRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -292,6 +318,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductSoilDiagnosticsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/support/api': {
+      id: '/support/api'
+      path: '/support/api'
+      fullPath: '/support/api'
+      preLoaderRoute: typeof SupportApiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support/contact': {
+      id: '/support/contact'
+      path: '/support/contact'
+      fullPath: '/support/contact'
+      preLoaderRoute: typeof SupportContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -309,6 +349,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProductCropHealthRoute: ProductCropHealthRoute,
   ProductSeedQualityRoute: ProductSeedQualityRoute,
   ProductSoilDiagnosticsRoute: ProductSoilDiagnosticsRoute,
+  SupportApiRoute: SupportApiRoute,
+  SupportContactRoute: SupportContactRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
