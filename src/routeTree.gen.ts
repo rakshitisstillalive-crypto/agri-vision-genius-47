@@ -14,6 +14,10 @@ import { Route as AnalyzeRouteImport } from './routes/analyze'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ProductBrixPhRouteImport } from './routes/product.brix-ph'
+import { Route as ProductCropHealthRouteImport } from './routes/product.crop-health'
+import { Route as ProductSeedQualityRouteImport } from './routes/product.seed-quality'
+import { Route as ProductSoilDiagnosticsRouteImport } from './routes/product.soil-diagnostics'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +44,26 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductBrixPhRoute = ProductBrixPhRouteImport.update({
+  id: '/product/brix-ph',
+  path: '/product/brix-ph',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductCropHealthRoute = ProductCropHealthRouteImport.update({
+  id: '/product/crop-health',
+  path: '/product/crop-health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductSeedQualityRoute = ProductSeedQualityRouteImport.update({
+  id: '/product/seed-quality',
+  path: '/product/seed-quality',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductSoilDiagnosticsRoute = ProductSoilDiagnosticsRouteImport.update({
+  id: '/product/soil-diagnostics',
+  path: '/product/soil-diagnostics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +71,10 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/product/brix-ph': typeof ProductBrixPhRoute
+  '/product/crop-health': typeof ProductCropHealthRoute
+  '/product/seed-quality': typeof ProductSeedQualityRoute
+  '/product/soil-diagnostics': typeof ProductSoilDiagnosticsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +82,10 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/product/brix-ph': typeof ProductBrixPhRoute
+  '/product/crop-health': typeof ProductCropHealthRoute
+  '/product/seed-quality': typeof ProductSeedQualityRoute
+  '/product/soil-diagnostics': typeof ProductSoilDiagnosticsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +94,45 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/product/brix-ph': typeof ProductBrixPhRoute
+  '/product/crop-health': typeof ProductCropHealthRoute
+  '/product/seed-quality': typeof ProductSeedQualityRoute
+  '/product/soil-diagnostics': typeof ProductSoilDiagnosticsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analyze' | '/auth' | '/dashboard' | '/reset-password'
+  fullPaths:
+    | '/'
+    | '/analyze'
+    | '/auth'
+    | '/dashboard'
+    | '/reset-password'
+    | '/product/brix-ph'
+    | '/product/crop-health'
+    | '/product/seed-quality'
+    | '/product/soil-diagnostics'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analyze' | '/auth' | '/dashboard' | '/reset-password'
-  id: '__root__' | '/' | '/analyze' | '/auth' | '/dashboard' | '/reset-password'
+  to:
+    | '/'
+    | '/analyze'
+    | '/auth'
+    | '/dashboard'
+    | '/reset-password'
+    | '/product/brix-ph'
+    | '/product/crop-health'
+    | '/product/seed-quality'
+    | '/product/soil-diagnostics'
+  id:
+    | '__root__'
+    | '/'
+    | '/analyze'
+    | '/auth'
+    | '/dashboard'
+    | '/reset-password'
+    | '/product/brix-ph'
+    | '/product/crop-health'
+    | '/product/seed-quality'
+    | '/product/soil-diagnostics'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +141,10 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ProductBrixPhRoute: typeof ProductBrixPhRoute
+  ProductCropHealthRoute: typeof ProductCropHealthRoute
+  ProductSeedQualityRoute: typeof ProductSeedQualityRoute
+  ProductSoilDiagnosticsRoute: typeof ProductSoilDiagnosticsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +184,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/product/brix-ph': {
+      id: '/product/brix-ph'
+      path: '/product/brix-ph'
+      fullPath: '/product/brix-ph'
+      preLoaderRoute: typeof ProductBrixPhRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/crop-health': {
+      id: '/product/crop-health'
+      path: '/product/crop-health'
+      fullPath: '/product/crop-health'
+      preLoaderRoute: typeof ProductCropHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/seed-quality': {
+      id: '/product/seed-quality'
+      path: '/product/seed-quality'
+      fullPath: '/product/seed-quality'
+      preLoaderRoute: typeof ProductSeedQualityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/soil-diagnostics': {
+      id: '/product/soil-diagnostics'
+      path: '/product/soil-diagnostics'
+      fullPath: '/product/soil-diagnostics'
+      preLoaderRoute: typeof ProductSoilDiagnosticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +221,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ProductBrixPhRoute: ProductBrixPhRoute,
+  ProductCropHealthRoute: ProductCropHealthRoute,
+  ProductSeedQualityRoute: ProductSeedQualityRoute,
+  ProductSoilDiagnosticsRoute: ProductSoilDiagnosticsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
