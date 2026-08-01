@@ -14,6 +14,10 @@ import { Route as AnalyzeRouteImport } from './routes/analyze'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as CompanyAboutRouteImport } from './routes/company.about'
+import { Route as CompanyCareersRouteImport } from './routes/company.careers'
+import { Route as CompanyPressRouteImport } from './routes/company.press'
+import { Route as CompanyResearchRouteImport } from './routes/company.research'
 import { Route as ProductBrixPhRouteImport } from './routes/product.brix-ph'
 import { Route as ProductCropHealthRouteImport } from './routes/product.crop-health'
 import { Route as ProductSeedQualityRouteImport } from './routes/product.seed-quality'
@@ -44,6 +48,26 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompanyAboutRoute = CompanyAboutRouteImport.update({
+  id: '/company/about',
+  path: '/company/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompanyCareersRoute = CompanyCareersRouteImport.update({
+  id: '/company/careers',
+  path: '/company/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompanyPressRoute = CompanyPressRouteImport.update({
+  id: '/company/press',
+  path: '/company/press',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompanyResearchRoute = CompanyResearchRouteImport.update({
+  id: '/company/research',
+  path: '/company/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductBrixPhRoute = ProductBrixPhRouteImport.update({
   id: '/product/brix-ph',
   path: '/product/brix-ph',
@@ -71,6 +95,10 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/company/about': typeof CompanyAboutRoute
+  '/company/careers': typeof CompanyCareersRoute
+  '/company/press': typeof CompanyPressRoute
+  '/company/research': typeof CompanyResearchRoute
   '/product/brix-ph': typeof ProductBrixPhRoute
   '/product/crop-health': typeof ProductCropHealthRoute
   '/product/seed-quality': typeof ProductSeedQualityRoute
@@ -82,6 +110,10 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/company/about': typeof CompanyAboutRoute
+  '/company/careers': typeof CompanyCareersRoute
+  '/company/press': typeof CompanyPressRoute
+  '/company/research': typeof CompanyResearchRoute
   '/product/brix-ph': typeof ProductBrixPhRoute
   '/product/crop-health': typeof ProductCropHealthRoute
   '/product/seed-quality': typeof ProductSeedQualityRoute
@@ -94,6 +126,10 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/company/about': typeof CompanyAboutRoute
+  '/company/careers': typeof CompanyCareersRoute
+  '/company/press': typeof CompanyPressRoute
+  '/company/research': typeof CompanyResearchRoute
   '/product/brix-ph': typeof ProductBrixPhRoute
   '/product/crop-health': typeof ProductCropHealthRoute
   '/product/seed-quality': typeof ProductSeedQualityRoute
@@ -107,6 +143,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/reset-password'
+    | '/company/about'
+    | '/company/careers'
+    | '/company/press'
+    | '/company/research'
     | '/product/brix-ph'
     | '/product/crop-health'
     | '/product/seed-quality'
@@ -118,6 +158,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/reset-password'
+    | '/company/about'
+    | '/company/careers'
+    | '/company/press'
+    | '/company/research'
     | '/product/brix-ph'
     | '/product/crop-health'
     | '/product/seed-quality'
@@ -129,6 +173,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/dashboard'
     | '/reset-password'
+    | '/company/about'
+    | '/company/careers'
+    | '/company/press'
+    | '/company/research'
     | '/product/brix-ph'
     | '/product/crop-health'
     | '/product/seed-quality'
@@ -141,6 +189,10 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  CompanyAboutRoute: typeof CompanyAboutRoute
+  CompanyCareersRoute: typeof CompanyCareersRoute
+  CompanyPressRoute: typeof CompanyPressRoute
+  CompanyResearchRoute: typeof CompanyResearchRoute
   ProductBrixPhRoute: typeof ProductBrixPhRoute
   ProductCropHealthRoute: typeof ProductCropHealthRoute
   ProductSeedQualityRoute: typeof ProductSeedQualityRoute
@@ -184,6 +236,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/company/about': {
+      id: '/company/about'
+      path: '/company/about'
+      fullPath: '/company/about'
+      preLoaderRoute: typeof CompanyAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/company/careers': {
+      id: '/company/careers'
+      path: '/company/careers'
+      fullPath: '/company/careers'
+      preLoaderRoute: typeof CompanyCareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/company/press': {
+      id: '/company/press'
+      path: '/company/press'
+      fullPath: '/company/press'
+      preLoaderRoute: typeof CompanyPressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/company/research': {
+      id: '/company/research'
+      path: '/company/research'
+      fullPath: '/company/research'
+      preLoaderRoute: typeof CompanyResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/product/brix-ph': {
       id: '/product/brix-ph'
       path: '/product/brix-ph'
@@ -221,6 +301,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  CompanyAboutRoute: CompanyAboutRoute,
+  CompanyCareersRoute: CompanyCareersRoute,
+  CompanyPressRoute: CompanyPressRoute,
+  CompanyResearchRoute: CompanyResearchRoute,
   ProductBrixPhRoute: ProductBrixPhRoute,
   ProductCropHealthRoute: ProductCropHealthRoute,
   ProductSeedQualityRoute: ProductSeedQualityRoute,
