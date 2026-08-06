@@ -39,7 +39,7 @@ export function Logo({ className }: { className?: string }) {
     <Link to="/" className={cn("group flex items-center gap-2.5", className)}>
       <LogoMark />
       <span className="font-display text-lg font-bold tracking-tight">
-        Farmer&apos;s <span className="text-gradient">AI</span>
+        Farmer&apos;s&nbsp;&nbsp;<span className="text-gradient">APP</span>
       </span>
     </Link>
   );
