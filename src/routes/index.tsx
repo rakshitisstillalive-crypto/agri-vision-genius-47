@@ -62,10 +62,10 @@ const features = [
     to: "/product/soil-diagnostics" as const,
   },
   {
-    icon: Gauge,
-    title: "Brix & pH Assessor",
-    body: "Estimated sugar content and acidity for fruit and vegetables, plus microbiological safety scoring.",
-    to: "/product/brix-ph" as const,
+    icon: Leaf,
+    title: "Leaf Classification",
+    body: "Identify plant species, leaf disorders, and stress patterns from a single photo with AI taxonomy and health scoring.",
+    to: "/product/crop-health" as const,
   },
   {
     icon: Wheat,
