@@ -3,7 +3,6 @@ import {
   Camera,
   Droplets,
   FlaskConical,
-  Gauge,
   Leaf,
   ShieldCheck,
   Sprout,
