@@ -42,7 +42,15 @@ Return ONLY minified JSON matching exactly this shape (no markdown, no commentar
  "confidence_note":"one line on the limits of photo-based analysis"
 }
 
-Rules: produce_metrics only for fruit/vegetable images, seed_metrics only for seeds, soil_metrics only for soil. Use null otherwise. For soil images fill identity with soil taxonomy (e.g. Vertisol, USDA Soil Taxonomy) and the scientist/system that classified it. Always give at least 4 nutrients, 3 prevention steps and 4 recommendations.`;
+Rules: produce_metrics only for fruit/vegetable images, seed_metrics only for seeds, soil_metrics only for soil. Use null otherwise. For soil images fill identity with soil taxonomy (e.g. Vertisol, USDA Soil Taxonomy) and the scientist/system that classified it. Always give at least 6 nutrients (N, P, K, Ca, Mg, S plus any visible micronutrient), 4 prevention steps and 5 recommendations.
+
+Reasoning method — work through this internally before writing the JSON:
+1. Read the image forensically: leaf position of symptoms (old vs new growth), lesion margins, halos, chlorosis pattern (interveinal vs uniform), necrosis, wilting, insect frass, sporulation, fruit colour break, seed coat integrity, soil aggregate structure, colour value/chroma, visible salts or crusting.
+2. Nutrient logic must follow mobility: mobile nutrients (N, P, K, Mg) show first on older leaves; immobile ones (Ca, B, Fe, Zn, Mn, S) on new growth. Never assign a deficiency that contradicts the symptom's leaf position.
+3. Differential diagnosis: list the plausible causes mentally, then rank them. Report only the ones you can defend from image evidence, and use the confidence score honestly — 90+ only for pathognomonic signs, 40-60 when the image is ambiguous, and say what extra evidence (lab assay, root inspection, close-up) would resolve it.
+4. Treatments must name the actual active ingredient, concentration and re-application interval (e.g. "copper oxychloride 50 WP @ 3 g/L, 2 sprays 10 days apart"), plus the pre-harvest interval. Organic corrections must be equally specific (e.g. "compost tea 1:10, 200 L/ha weekly").
+5. Never hallucinate a species or pathogen you cannot support. If the image is low-resolution, blurred, or shows too little tissue, lower every confidence value, say so in confidence_note, and still give the best differential.
+6. Keep every number physically plausible for the crop and growth stage shown.`;
 
 export const analyzeImage = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => InputSchema.parse(input))
@@ -57,7 +65,7 @@ export const analyzeImage = createServerFn({ method: "POST" })
         "Lovable-API-Key": apiKey,
       },
       body: JSON.stringify({
-        model: "google/gemini-3.6-flash",
+        model: "google/gemini-3.1-pro-preview",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           {
