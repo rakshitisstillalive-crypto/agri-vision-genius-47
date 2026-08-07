@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import { Analyzer } from "@/components/analysis/analyzer";
+import { LeafClassificationModal } from "@/components/analysis/leaf-classification-modal";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -148,16 +149,40 @@ function Home() {
         <div className="mx-auto max-w-6xl px-4">
           <h2 className="text-2xl font-bold sm:text-3xl">One engine, four instruments</h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {features.map((f) => (
-              <Link key={f.title} to={f.to} className="surface-card group p-5 transition-shadow hover:shadow-elegant">
-                <span className="gradient-primary mb-4 flex size-10 items-center justify-center rounded-xl text-primary-foreground">
-                  <f.icon className="size-5" />
-                </span>
-                <h3 className="text-base font-semibold">{f.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{f.body}</p>
-                <span className="mt-3 inline-block text-sm font-medium text-primary">Learn more →</span>
-              </Link>
-            ))}
+            {features.map((f) => {
+              const cardContent = (
+                <>
+                  <span className="gradient-primary mb-4 flex size-10 items-center justify-center rounded-xl text-primary-foreground">
+                    <f.icon className="size-5" />
+                  </span>
+                  <h3 className="text-base font-semibold">{f.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{f.body}</p>
+                  <span className="mt-3 inline-block text-sm font-medium text-primary">
+                    {f.title === "Leaf Classification" ? "Open details →" : "Learn more →"}
+                  </span>
+                </>
+              );
+
+              if (f.title === "Leaf Classification") {
+                return (
+                  <LeafClassificationModal key={f.title}>
+                    <div
+                      className="surface-card group cursor-pointer p-5 transition-shadow hover:shadow-elegant"
+                      role="button"
+                      tabIndex={0}
+                    >
+                      {cardContent}
+                    </div>
+                  </LeafClassificationModal>
+                );
+              }
+
+              return (
+                <Link key={f.title} to={f.to} className="surface-card group p-5 transition-shadow hover:shadow-elegant">
+                  {cardContent}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
