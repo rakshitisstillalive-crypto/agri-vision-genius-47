@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import { Analyzer } from "@/components/analysis/analyzer";
+import { LeafClassificationModal } from "@/components/analysis/leaf-classification-modal";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
