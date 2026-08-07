@@ -57,7 +57,7 @@ function Page() {
         <div className="space-y-4">
           {[
             { i: Mail, t: "Email", v: "support@farmersai.app", h: "mailto:support@farmersai.app" },
-            { i: Phone, t: "Phone", v: "+1 (555) 014-2200", h: "tel:+15550142200" },
+            { i: Phone, t: "Phone", v: "+91 8178722739", h: "tel:+918178722739" },
             { i: MessageSquare, t: "Response time", v: "Within 24 hours, Mon–Sat" },
           ].map((c) => (
             <div key={c.t} className="surface-card flex gap-4 p-5">
