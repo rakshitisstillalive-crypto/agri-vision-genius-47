@@ -37,7 +37,7 @@ function Page() {
     }
     setBusy(true);
     const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
-    window.location.href = `mailto:support@farmersai.app?subject=${encodeURIComponent(
+    window.location.href = `mailto:rakshitisstillalive@gmail.com?subject=${encodeURIComponent(
       form.subject || "Support request",
     )}&body=${body}`;
     setTimeout(() => {
@@ -56,7 +56,7 @@ function Page() {
       <div className="mx-auto grid max-w-5xl gap-8 px-4 py-14 lg:grid-cols-[1fr_1.2fr]">
         <div className="space-y-4">
           {[
-            { i: Mail, t: "Email", v: "support@farmersai.app", h: "mailto:support@farmersai.app" },
+            { i: Mail, t: "Email", v: "rakshitisstillalive@gmail.com", h: "mailto:rakshitisstillalive@gmail.com" },
             { i: Phone, t: "Phone", v: "+91 8178722739", h: "tel:+918178722739" },
             { i: MessageSquare, t: "Response time", v: "Within 24 hours, Mon–Sat" },
           ].map((c) => (
