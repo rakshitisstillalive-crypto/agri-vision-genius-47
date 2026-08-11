@@ -108,7 +108,7 @@ export function Header() {
         <div className="flex items-center gap-1.5">
           <ThemeSwitcher />
           {user ? (
-            <Button asChild className="hidden sm:inline-flex">
+            <Button asChild className="hidden rounded-full px-5 sm:inline-flex">
               <Link to="/dashboard">Dashboard</Link>
             </Button>
           ) : (
@@ -116,7 +116,7 @@ export function Header() {
               <Button variant="ghost" asChild className="hidden sm:inline-flex">
                 <Link to="/auth">Sign in</Link>
               </Button>
-              <Button asChild className="hidden sm:inline-flex">
+              <Button asChild className="hidden rounded-full px-5 sm:inline-flex">
                 <Link to="/analyze">Try free</Link>
               </Button>
             </>
