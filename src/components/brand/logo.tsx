@@ -1,23 +1,18 @@
 import { Link } from "@tanstack/react-router";
 
-import logoAsset from "@/assets/farmers-ai-logo.jpg.asset.json";
+import logoMark from "@/assets/farmers-app-logo.png";
 import { cn } from "@/lib/utils";
 
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center justify-center overflow-hidden rounded-full bg-background shadow-elegant ring-1 ring-primary/25",
-        className ?? "size-9",
-      )}
-    >
-      <img
-        src={logoAsset.url}
-        alt="Farmer's APP logo"
-        className="size-full scale-[1.15] object-cover"
-        loading="lazy"
-      />
-    </span>
+    <img
+      src={logoMark}
+      alt="Farmer's APP logo"
+      width={816}
+      height={816}
+      loading="lazy"
+      className={cn("object-contain", className ?? "size-9")}
+    />
   );
 }
 
