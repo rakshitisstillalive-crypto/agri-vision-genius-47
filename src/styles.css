@@ -218,3 +218,28 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
 }
+
+@utility hero-surface {
+  background-color: var(--hero);
+  color: var(--hero-foreground);
+  background-image:
+    radial-gradient(60% 55% at 8% 0%, oklch(0.55 0.14 140 / 0.45) 0%, transparent 65%),
+    radial-gradient(50% 50% at 100% 20%, oklch(0.45 0.11 165 / 0.5) 0%, transparent 70%);
+}
+
+@utility hero-grid {
+  background-image:
+    linear-gradient(to right, oklch(1 0 0 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(1 0 0 / 0.05) 1px, transparent 1px);
+  background-size: 68px 68px;
+}
+
+@utility text-lime-accent {
+  color: var(--lime);
+}
+
+@utility glass-panel {
+  background-color: oklch(0.2 0.04 155 / 0.72);
+  border: 1px solid oklch(1 0 0 / 0.14);
+  backdrop-filter: blur(12px);
+}
