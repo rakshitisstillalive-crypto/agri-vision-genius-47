@@ -114,7 +114,7 @@ export function Header() {
           ) : (
             <>
               <Button variant="ghost" asChild className="hidden sm:inline-flex">
-                <Link to="/auth">Sign in</Link>
+                <Link to="/auth" search={{ redirect: "/dashboard" }}>Sign in</Link>
               </Button>
               <Button asChild className="hidden rounded-full px-5 sm:inline-flex">
                 <Link to="/analyze">Try free</Link>

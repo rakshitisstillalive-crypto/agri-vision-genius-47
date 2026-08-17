@@ -393,7 +393,7 @@ export function Analyzer() {
           </Button>
           <p className="text-sm text-muted-foreground">
             Guest analysis is free.{" "}
-            <Link to="/auth" className="text-primary underline-offset-4 hover:underline">
+            <Link to="/auth" search={{ redirect: "/analyze" }} className="text-primary underline-offset-4 hover:underline">
               Sign in
             </Link>{" "}
             to keep a history.
