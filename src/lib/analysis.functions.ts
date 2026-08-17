@@ -12,18 +12,25 @@ const InputSchema = z.object({
 export const analyzeImage = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => InputSchema.parse(input))
   .handler(async ({ data }): Promise<AnalysisReport> => {
-    const apiKey = process.env["LOVABLE_API_KEY"];
-    if (!apiKey) throw new Error("AI gateway is not configured.");
+    const openaiKey = process.env["OPENAI_API_KEY"];
+    const lovableKey = process.env["LOVABLE_API_KEY"];
+    if (!openaiKey && !lovableKey) throw new Error("AI is not configured.");
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const endpoint = openaiKey
+      ? "https://api.openai.com/v1/chat/completions"
+      : "https://ai.gateway.lovable.dev/v1/chat/completions";
+    const model = openaiKey ? "gpt-4o" : "google/gemini-3.1-pro-preview";
+
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${openaiKey ?? lovableKey}`,
       },
       body: JSON.stringify({
-        model: "google/gemini-3.1-pro-preview",
+        model,
         messages: [
+
           { role: "system", content: SYSTEM_PROMPT },
           {
             role: "user",
