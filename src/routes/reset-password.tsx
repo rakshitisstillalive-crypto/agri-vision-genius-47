@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { confirmPasswordReset } from "firebase/auth";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -6,9 +7,12 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/integrations/supabase/client";
+import { auth } from "@/integrations/firebase/client";
 
 export const Route = createFileRoute("/reset-password")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    oobCode: typeof search["oobCode"] === "string" ? (search["oobCode"] as string) : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Reset password — Farmer's AI" },
@@ -22,6 +26,7 @@ export const Route = createFileRoute("/reset-password")({
 });
 
 function ResetPassword() {
+  const { oobCode } = Route.useSearch();
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
@@ -29,12 +34,16 @@ function ResetPassword() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password.length < 8) { toast.error("Password must be at least 8 characters."); return; }
+    if (!oobCode) { toast.error("Open this page from the reset link in your email."); return; }
     setBusy(true);
-    const { error } = await supabase.auth.updateUser({ password });
+    try {
+      await confirmPasswordReset(auth, oobCode, password);
+      toast.success("Password updated. Sign in with your new password.");
+      void navigate({ to: "/auth", search: { redirect: "/dashboard" } });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Reset link is invalid or expired.");
+    }
     setBusy(false);
-    if (error) { toast.error(error.message); return; }
-    toast.success("Password updated.");
-    void navigate({ to: "/dashboard" });
   };
 
   return (

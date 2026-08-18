@@ -1,4 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import {
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  updateProfile,
+} from "firebase/auth";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -9,8 +16,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
-import { lovable } from "@/integrations/lovable/index";
-import { supabase } from "@/integrations/supabase/client";
+import {
+  auth,
+  googleProvider,
+  isFirebaseConfigured,
+  microsoftProvider,
+} from "@/integrations/firebase/client";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -34,6 +45,17 @@ export const Route = createFileRoute("/auth")({
 
 const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 
+function errMessage(e: unknown) {
+  const code = (e as { code?: string })?.code ?? "";
+  if (code.includes("invalid-credential") || code.includes("wrong-password"))
+    return "Incorrect email or password.";
+  if (code.includes("email-already-in-use")) return "That email already has an account.";
+  if (code.includes("weak-password")) return "Password must be at least 6 characters.";
+  if (code.includes("popup-closed")) return "Sign-in window was closed.";
+  if (code.includes("operation-not-allowed")) return "That sign-in method is disabled in Firebase.";
+  return e instanceof Error ? e.message : "Something went wrong.";
+}
+
 function AuthPage() {
   const { redirect } = Route.useSearch();
   const { user, loading } = useAuth();
@@ -53,10 +75,13 @@ function AuthPage() {
     e.preventDefault();
     if (!emailOk(email)) { toast.error("Enter a valid email address."); return; }
     setBusy(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast.success("Welcome back.");
+    } catch (err) {
+      toast.error(errMessage(err));
+    }
     setBusy(false);
-    if (error) toast.error(error.message);
-    else toast.success("Welcome back.");
   };
 
   const signUp = async (e: React.FormEvent) => {
@@ -64,40 +89,36 @@ function AuthPage() {
     if (!emailOk(email)) { toast.error("Enter a valid email address."); return; }
     if (password.length < 8) { toast.error("Password must be at least 8 characters."); return; }
     setBusy(true);
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: window.location.origin,
-        data: { full_name: name },
-      },
-    });
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      if (name.trim()) await updateProfile(cred.user, { displayName: name.trim() });
+      toast.success("Account created.");
+    } catch (err) {
+      toast.error(errMessage(err));
+    }
     setBusy(false);
-    if (error) { toast.error(error.message); return; }
-    if (!data.session) toast.success("Check your inbox to confirm your email address.");
-    else toast.success("Account created.");
   };
 
   const oauth = async (provider: "google" | "microsoft") => {
     setBusy(true);
-    const result = await lovable.auth.signInWithOAuth(provider, {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      setBusy(false);
-      toast.error("Could not start sign-in. Please try again.");
-      return;
+    try {
+      await signInWithPopup(auth, provider === "google" ? googleProvider : microsoftProvider);
+    } catch (err) {
+      toast.error(errMessage(err));
     }
-    if (!("redirected" in result && result.redirected)) setBusy(false);
+    setBusy(false);
   };
 
   const reset = async () => {
     if (!emailOk(email)) { toast.error("Enter your email first, then tap reset."); return; }
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    if (error) toast.error(error.message);
-    else toast.success("Password reset link sent.");
+    try {
+      await sendPasswordResetEmail(auth, email, {
+        url: `${window.location.origin}/auth`,
+      });
+      toast.success("Password reset link sent.");
+    } catch (err) {
+      toast.error(errMessage(err));
+    }
   };
 
   return (
@@ -111,6 +132,13 @@ function AuthPage() {
               Analysis is always free — sign in to save your reports.
             </p>
           </div>
+
+          {!isFirebaseConfigured ? (
+            <p className="mt-5 rounded-lg border border-border bg-muted/50 p-3 text-xs text-muted-foreground">
+              Firebase isn&apos;t configured yet. Add your Firebase web config in{" "}
+              <code>src/integrations/firebase/config.ts</code> to enable sign-in.
+            </p>
+          ) : null}
 
           <div className="mt-6 grid gap-2">
             <Button variant="outline" disabled={busy} onClick={() => oauth("google")}>

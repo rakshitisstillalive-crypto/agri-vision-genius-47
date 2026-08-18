@@ -1,46 +1,56 @@
-import type { Session, User } from "@supabase/supabase-js";
+import { onAuthStateChanged, signOut as fbSignOut, type User } from "firebase/auth";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-import { supabase } from "@/integrations/supabase/client";
+import { auth, db, isFirebaseConfigured } from "@/integrations/firebase/client";
 
 type AuthContextValue = {
   user: User | null;
-  session: Session | null;
   loading: boolean;
   signOut: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue>({
   user: null,
-  session: null,
   loading: true,
   signOut: async () => {},
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
-      setSession(next);
+    if (!isFirebaseConfigured) {
       setLoading(false);
-    });
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+      return;
+    }
+    const unsub = onAuthStateChanged(auth, (next) => {
+      setUser(next);
       setLoading(false);
+      if (next) {
+        void setDoc(
+          doc(db, "profiles", next.uid),
+          {
+            displayName: next.displayName ?? next.email?.split("@")[0] ?? null,
+            avatarUrl: next.photoURL ?? null,
+            email: next.email ?? null,
+            updatedAt: serverTimestamp(),
+          },
+          { merge: true },
+        );
+      }
     });
-    return () => sub.subscription.unsubscribe();
+    return () => unsub();
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        session,
-        user: session?.user ?? null,
+        user,
         loading,
         signOut: async () => {
-          await supabase.auth.signOut();
+          if (isFirebaseConfigured) await fbSignOut(auth);
         },
       }}
     >
