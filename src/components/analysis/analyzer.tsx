@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
+import { saveAnalysis } from "@/lib/analyses";
 import type { AnalysisReport } from "@/lib/analysis-types";
 import { analyzeImage } from "@/lib/analysis.functions";
 import { downloadReportPdf } from "@/lib/report-pdf";

@@ -8,8 +8,7 @@ import { ReportView } from "@/components/analysis/analyzer";
 import { PageHero } from "@/components/site/page";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
-import type { AnalysisReport } from "@/lib/analysis-types";
+import { deleteAnalysis, listAnalyses, type AnalysisRow } from "@/lib/analyses";
 import { downloadReportPdf } from "@/lib/report-pdf";
 
 export const Route = createFileRoute("/dashboard")({
@@ -28,15 +27,6 @@ export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
 });
 
-type Row = {
-  id: string;
-  title: string;
-  kind: string;
-  created_at: string;
-  image_data_url: string | null;
-  report: AnalysisReport;
-};
-
 function Dashboard() {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
@@ -48,23 +38,19 @@ function Dashboard() {
   }, [loading, user, navigate]);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["analyses", user?.id],
+    queryKey: ["analyses", user?.uid],
     enabled: Boolean(user),
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("analyses")
-        .select("id,title,kind,created_at,image_data_url,report")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return data as unknown as Row[];
-    },
+    queryFn: () => listAnalyses(user!.uid),
   });
 
   const remove = async (id: string) => {
-    const { error } = await supabase.from("analyses").delete().eq("id", id);
-    if (error) { toast.error("Could not delete this report."); return; }
-    toast.success("Report deleted.");
-    void qc.invalidateQueries({ queryKey: ["analyses", user?.id] });
+    try {
+      await deleteAnalysis(id);
+      toast.success("Report deleted.");
+      void qc.invalidateQueries({ queryKey: ["analyses", user?.uid] });
+    } catch {
+      toast.error("Could not delete this report.");
+    }
   };
 
   if (loading || !user) {
@@ -81,7 +67,7 @@ function Dashboard() {
     <>
       <PageHero
         eyebrow="Dashboard"
-        title={`Welcome back, ${user.user_metadata?.["full_name"] ?? user.email?.split("@")[0]}`}
+        title={`Welcome back, ${user.displayName ?? user.email?.split("@")[0]}`}
         description="Every analysis you save lives here — reopen the interactive report or re-download the PDF at any time."
       >
         <div className="flex flex-wrap gap-3">
@@ -109,7 +95,7 @@ function Dashboard() {
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {data.map((row) => (
+            {data.map((row: AnalysisRow) => (
               <div key={row.id} className="surface-card overflow-hidden">
                 {row.image_data_url ? (
                   <img
