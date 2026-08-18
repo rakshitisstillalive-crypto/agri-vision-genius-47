@@ -79,16 +79,19 @@ export function ReportView({
       return;
     }
     setSaving(true);
-    const { error } = await supabase.from("analyses").insert({
-      user_id: user.id,
-      kind: report.kind === "soil" ? "soil" : "plant",
-      title: report.title ?? "Analysis",
-      image_data_url: imageDataUrl,
-      report: report as unknown as never,
-    });
+    try {
+      await saveAnalysis({
+        userId: user.uid,
+        kind: report.kind === "soil" ? "soil" : "plant",
+        title: report.title ?? "Analysis",
+        imageDataUrl,
+        report,
+      });
+      toast.success("Saved to your dashboard.");
+    } catch {
+      toast.error("Could not save this report.");
+    }
     setSaving(false);
-    if (error) toast.error("Could not save this report.");
-    else toast.success("Saved to your dashboard.");
   };
 
   const health = Math.max(0, Math.min(100, Number(report.health?.rating ?? 0)));
