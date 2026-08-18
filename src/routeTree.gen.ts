@@ -27,6 +27,7 @@ import { Route as ProductSeedQualityRouteImport } from './routes/product.seed-qu
 import { Route as ProductSoilDiagnosticsRouteImport } from './routes/product.soil-diagnostics'
 import { Route as SupportApiRouteImport } from './routes/support.api'
 import { Route as SupportContactRouteImport } from './routes/support.contact'
+import { Route as ApiPublicAicheckRouteImport } from './routes/api/public/aicheck'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -118,6 +119,11 @@ const SupportContactRoute = SupportContactRouteImport.update({
   path: '/support/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicAicheckRoute = ApiPublicAicheckRouteImport.update({
+  id: '/api/public/aicheck',
+  path: '/api/public/aicheck',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/product/soil-diagnostics': typeof ProductSoilDiagnosticsRoute
   '/support/api': typeof SupportApiRoute
   '/support/contact': typeof SupportContactRoute
+  '/api/public/aicheck': typeof ApiPublicAicheckRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/product/soil-diagnostics': typeof ProductSoilDiagnosticsRoute
   '/support/api': typeof SupportApiRoute
   '/support/contact': typeof SupportContactRoute
+  '/api/public/aicheck': typeof ApiPublicAicheckRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/product/soil-diagnostics': typeof ProductSoilDiagnosticsRoute
   '/support/api': typeof SupportApiRoute
   '/support/contact': typeof SupportContactRoute
+  '/api/public/aicheck': typeof ApiPublicAicheckRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/product/soil-diagnostics'
     | '/support/api'
     | '/support/contact'
+    | '/api/public/aicheck'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
     | '/product/soil-diagnostics'
     | '/support/api'
     | '/support/contact'
+    | '/api/public/aicheck'
   id:
     | '__root__'
     | '/'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/product/soil-diagnostics'
     | '/support/api'
     | '/support/contact'
+    | '/api/public/aicheck'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -262,6 +274,7 @@ export interface RootRouteChildren {
   ProductSoilDiagnosticsRoute: typeof ProductSoilDiagnosticsRoute
   SupportApiRoute: typeof SupportApiRoute
   SupportContactRoute: typeof SupportContactRoute
+  ApiPublicAicheckRoute: typeof ApiPublicAicheckRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -392,6 +405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SupportContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/aicheck': {
+      id: '/api/public/aicheck'
+      path: '/api/public/aicheck'
+      fullPath: '/api/public/aicheck'
+      preLoaderRoute: typeof ApiPublicAicheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -414,6 +434,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductSoilDiagnosticsRoute: ProductSoilDiagnosticsRoute,
   SupportApiRoute: SupportApiRoute,
   SupportContactRoute: SupportContactRoute,
+  ApiPublicAicheckRoute: ApiPublicAicheckRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
